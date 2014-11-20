@@ -1,17 +1,14 @@
 // TODO:
 // http://www.crockford.com/javascript/www_svendtofte_com/code/curried_javascript/index.html
-function curryN(fn, n) {
-    return function () {
-        if (typeof n === 'undefined') {
-            n = fn.length
-        }
-        if (n === 0) {
-            return fn(arguments)
-        } else {
-            return function () {
-                var len = arguments.length
-                curryN(fn.bind(null, arguments), n-len)
-            }
+var slice = Array.prototype.slice;
+
+function curryN(fn) {
+    var args = slice.call(arguments, 1);
+    if (args.length === fn.length) {
+        return fn.bind(null, args)
+    } else if (args.length === 0) {
+        return function () {
+            curryN(fn, arguments)
         }
     }
 }
@@ -19,6 +16,7 @@ function curryN(fn, n) {
 function add3(one, two, three) {
     return one + two + three
 }
+
 var curryC = curryN(add3)
 var curryB = curryC(1)
 var curryA = curryB(2)
