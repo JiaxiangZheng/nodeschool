@@ -14,4 +14,3 @@ module.exports = function(operation, num) {
     // You probably want to call your trampoline here!
     return repeat(operation, num)
 }
-
