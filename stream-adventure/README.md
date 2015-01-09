@@ -70,7 +70,7 @@ UNIX中有管道（pipe）这个概念，Node的stream也使用了这一思想�
     var util = require('util');
     util.inherits(Counter, stream.Readable);
     function Counter(opt) {
-        Readable.call(this, opt);   
+        Readable.call(this, opt);
         this._max = 1000;
         this._index = 1;
     }
@@ -84,3 +84,8 @@ UNIX中有管道（pipe）这个概念，Node的stream也使用了这一思想�
             this.push(buf);
         }
     }
+
+一些网址：
+
+2. [stream-api](http://nodejs.org/api/stream.html)
+1. [stream-handbook](https://github.com/substack/stream-handbook)

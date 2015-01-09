@@ -2,6 +2,13 @@
 // http://www.crockford.com/javascript/www_svendtofte_com/code/curried_javascript/index.html
 var slice = Array.prototype.slice;
 
+function curry(fn) {
+    var args = slice.call(arguments, 1);
+    return function () {
+        args = args.concat(slice.call(arguments));
+        fn.apply(this, args);
+    }
+}
 function curryN(fn, nArgs) {
     if (typeof nArgs === "undefined") nArgs = fn.length;
 
