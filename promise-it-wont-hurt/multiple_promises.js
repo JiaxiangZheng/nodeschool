@@ -1,20 +1,35 @@
 var Q = require('q');
 
-var defers = [Q.defer(), Q.defer()];
+var defers = [Q.defer(), Q.defer()],
+    promises = [defers[0].promise, defers[1].promise];
 
-// function all(promiseA, promiseB) {
-//     var defer = Q.defer(),
-//         counter = 0;
-//     promiseA.then(function () { // resolve
-//         counter++;
-//         if (counter >= 2) {
-//             defer.resolve();
-//         }
-//     }, function () {    // reject
-//     });
-//     return defer.promise;
-// }
+function all(promiseA, promiseB) {
+    var defer = Q.defer(),
+        counter = 0,
+        vs = new Array(2);
 
-Q.all([promiseA, promiseB]).then(function () {
+    promiseA.then(function (result) {
+        vs[0] = result;
+        counter += 1;
+        if (counter >= 2) {
+            defer.resolve(vs);
+        }
+    });
 
-});
+    promiseB.then(function (result) {
+        vs[1] = result;
+        counter += 1;
+        if (counter >= 2) {
+            defer.resolve(vs);
+        }
+    });
+
+    return defer.promise;
+}
+
+all(promises[0], promises[1]).then(console.log).done();
+
+setTimeout(function () {
+    defers[0].resolve('PROMISES');
+    defers[1].resolve('FTW');
+}, 200)
